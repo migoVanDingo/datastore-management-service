@@ -1,0 +1,22 @@
+###
+POST http://localhost:5012/api/datastore
+Content-Type: application/json
+
+{
+  "name": "test2",
+  "description": "now everything works"
+}
+###
+POST http://localhost:5010/api/create
+Content-Type: application/json
+
+{
+    "table_name": "datastore",
+     "payload": {
+        "name": "test2",
+        "description": "test2",
+        "path": "/tmp"
+        },
+     "service": "datastore-management-service",
+     "request_id": "df8123"
+}

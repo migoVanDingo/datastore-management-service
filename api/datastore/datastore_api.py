@@ -12,10 +12,10 @@ def create_datastore():
     current_app.logger.info(f"{request_id} --- ENDPOINT: {__name__}")
 
     data = json.loads(request.data)
-    api_request = RequestCreateDatastore(data)
+    api_request = RequestCreateDatastore(request_id, data)
     response = api_request.do_process()
     
-    return "NOT_IMPLEMENTED"
+    return response
 
 
 # Get datastore

@@ -1,3 +1,4 @@
 .env
 .datastore
 record.log
+*.pyc
