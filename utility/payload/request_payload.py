@@ -54,11 +54,10 @@ class RequestPayload:
         return payload
     
     @staticmethod
-    def read_list( request_id, table_name, service, field, value) -> IReadList:
+    def read_list( request_id, table_name, service, data) -> IReadList:
         payload = {
             "table_name": table_name,
-            "field": field,
-            "value": value,
+            "filters": data,
             "service": service,
             "request_id": request_id
         }

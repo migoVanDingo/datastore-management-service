@@ -63,14 +63,14 @@ class Request:
             payload = RequestPayload.form_read_payload(request_id, table_name, self.service, data)
             current_app.logger.info(f"{request_id} --- {self.__class__.__name__} --- READ PAYLOAD: {payload}")
             response = requests.post(url, headers=self.headers, json=payload)
-            return response
+            return response.json()
         
         except Exception as e:
             current_app.logger.error(f"{request_id} --- {self.__class__.__name__} --- {traceback.format_exc()} --- {e}")
             raise ThrowError("Failed to read data", 500)
         
 
-    def read_list(self, request_id, table_name, field, value):
+    def read_list(self, request_id, table_name, data):
         """Read list of data from the database
         Args:
             request_id (str): Request ID
@@ -82,11 +82,11 @@ class Request:
                 response: Response from the DAO
         """
         try:
-            url = Constant.base_url + Constant.dao_port + Constant.dao["read_list"]
-            payload = RequestPayload.read_list(request_id, table_name, self.service, field, value)
+            url = Constant.base_url + Constant.dao_port + Constant.dao["list"]
+            payload = RequestPayload.read_list(request_id, table_name, self.service, data)
             current_app.logger.info(f"{request_id} --- {self.__class__.__name__} --- READ_LIST PAYLOAD: {payload}")
             response = requests.post(url, headers=self.headers, json=payload)
-            return response
+            return response.json()
         
         except Exception as e:
             current_app.logger.error(f"{request_id} --- {self.__class__.__name__} --- {traceback.format_exc()} --- {e}")
@@ -110,7 +110,7 @@ class Request:
             payload = RequestPayload.form_update_payload(request_id, table_name, self.service, key, value, data)
             current_app.logger.info(f"{request_id} --- {self.__class__.__name__} --- UPDATE PAYLOAD: {payload}")
             response = requests.post(url, headers=self.headers, json=payload)
-            return response
+            return response.json()
         
         except Exception as e:
             current_app.logger.error(f"{request_id} --- {self.__class__.__name__} --- {traceback.format_exc()} --- {e}")
@@ -131,7 +131,7 @@ class Request:
             payload = RequestPayload.form_delete_payload(request_id, table_name, self.service, id)
             current_app.logger.info(f"{request_id} --- {self.__class__.__name__} --- DELETE PAYLOAD: {payload}")
             response = requests.post(url, headers=self.headers, json=payload)
-            return response
+            return response.json()
         
         except Exception as e:
             current_app.logger.error(f"{request_id} --- {self.__class__.__name__} --- {traceback.format_exc()} --- {e}")
