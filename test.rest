@@ -1,33 +1,35 @@
 ###
 # Delete Datastore (Soft delete)
-DELETE http://localhost:5012/api/datastore/DSMS9HVPQW9C80LIXXWJU77FE
+DELETE http://localhost:5012/api/datastore/<datastore_id>
 
 ###
 # Get datastore list
-GET http://localhost:5012/api/datastore/list?datastore_id=DSMS22FFB75TTXOA0S1VHZUHG
+GET http://localhost:5012/api/datastore/list?datastore_id=<datastore_id>
 Content-type: application/json
 
 ###
 # Update Datastore 
-PUT http://localhost:5012/api/datastore/DSMS9HVPQW9C80LIXXWJU77FE
+PUT http://localhost:5012/api/datastore/DSTR0ELLPV56XT94P5Q5I3P9L
 Content-Type: application/json
 
 {
-  "path":"updated_path_again"
+  "name":"dssto3"
 }
 ###
 # Get a datastore with a filter. Can accept multiple args
-GET http://localhost:5012/api/datastore?datastore_id=DSMS4ODUOFC3QZD3HTFJ5ZSMS
+GET http://localhost:5012/api/dataset?dataset_id=DSET1W7I1PE3UU9U57X5BEJ1G
 Content-type: application/json
 
 ###
 # Create Datastore via datastore-management-service
-POST http://localhost:5012/api/datastore
+POST http://localhost:5012/api/dataset
 Content-Type: application/json
 
 {
-  "name": "test9",
-  "description": "doeszis..?"
+  "name": "s2",
+  "description": "s2 desc",
+  "datastore_id": "DSTR0ELLPV56XT94P5Q5I3P9L"
+  
 }
 ###
 # Insert datastore record directly to dao-service (must be running)

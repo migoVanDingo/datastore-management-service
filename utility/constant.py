@@ -7,7 +7,7 @@ class Constant:
     dao_port = "5010"
 
     dao = {
-        "create" : "/api/create",
+        "create": "/api/create",
         "read": "/api/read",
         "list": "/api/read_list",
         "update": "/api/update",
@@ -20,5 +20,34 @@ class Constant:
     }
 
     delimeter = {
-        "DATASTORE": "__"
+        "DATASTORE": "__",
+        "DATASET": "__"
+    }
+
+    datastore = {
+        "directories": [
+            "raw_data/videos",
+            "raw_data/images",
+            "raw_data/audio",
+            "raw_data/other",
+            "datasets",
+            "logs",
+            "reports",
+        ],
+    }
+
+    dataset = {
+        "directories": [
+            "ground_truth",
+            "preprocessed_data/videos",
+            "preprocessed_data/images",
+            "preprocessed_data/audio",
+            "models",
+            "predictions",
+            "annotations",
+        ],
+
+    }
+    files = {
+        "metadata": "-metadata.json"
     }
