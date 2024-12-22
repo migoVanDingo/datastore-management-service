@@ -16,7 +16,8 @@ class Constant:
 
     table = {
         "DATASTORE": "datastore",
-        "DATASET": "dataset"
+        "DATASET": "dataset",
+        "FILES": "files",
     }
 
     delimeter = {

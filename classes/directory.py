@@ -74,15 +74,20 @@ class Directory:
         try:
             # Define the entity directory structure
             name =  name + Constant.delimeter['DATASET'] + id
-            dataset_path = os.path.join(datastore_path, "datasets", name)
-            
+
+            #This response path is what will go into the database eg. datasets/<dataset_name>__<dataset_id>
+            response_path = os.path.join("datasets", name)
+
+            #This dataset path is the actual path in the filesystem
+            dataset_path = os.path.join(datastore_path, response_path)
+            current_app.logger.info(f"{request_id} --- {__class__.__name__} --- DATASET PATH: {dataset_path}")
             # Create the directories
             for directory in directories:
                 path = os.path.join(dataset_path, directory)
                 Directory.create_directory(request_id, path)
             
             Directory.create_metadata_file(request_id, dataset_path, name)
-            return dataset_path
+            return response_path
         except Exception as e:
             current_app.logger.error(f"{request_id} --- {__class__.__name__} --- {traceback.format_exc()} --- {e}")
             return False  

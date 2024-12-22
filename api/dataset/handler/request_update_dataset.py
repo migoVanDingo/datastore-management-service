@@ -1,4 +1,5 @@
 import os
+import traceback
 from flask import current_app
 from classes.directory import Directory
 from interface.abstract_handler import AbstractHandler
@@ -23,12 +24,25 @@ class RequestUpdateDataset(AbstractHandler):
                 dao_response = dao_request.read(self.request_id, Constant.table['DATASET'], {"dataset_id": self.dataset_id})
                 old_path = dao_response['response']['path']
                 splits = old_path.split("/")
+
+                # Get datastore from dataset_id
+                datastore_id = dao_response['response']['datastore_id']
+                dao_datastore = Request()
+                dao_response = dao_datastore.read(self.request_id, Constant.table['DATASTORE'], {"datastore_id": datastore_id})
+                datastore_path = dao_response['response']['path']
                 
                 # all but last split
                 old_path_component = "/".join(splits[:-1])
                 new_path = os.path.join(old_path_component,self.payload['name'] + Constant.delimeter['DATASET'] + self.dataset_id) 
-                Directory.update_directory(self.request_id, old_path, new_path)
+
+                # Update path in payload to update in DB
                 self.payload['path'] = new_path
+
+                # The following paths update the actual file system in the Directory.update_directory()
+                old_path = os.path.join(datastore_path, old_path)
+                new_path = os.path.join(datastore_path, new_path)
+                Directory.update_directory(self.request_id, old_path, new_path)
+                
 
             # Update dataset into DB
             dao_request = Request()
@@ -46,5 +60,5 @@ class RequestUpdateDataset(AbstractHandler):
             return dao_update_response['response']
         
         except Exception as e:
-            current_app.logger.error(f"{self.request_id} --- {self.__class__.__name__} --- {e}")
+            current_app.logger.error(f"{self.request_id} --- {self.__class__.__name__} -- {traceback.format_exc()} --- {e}")
             raise ThrowError("Failed to update dataset", 500)

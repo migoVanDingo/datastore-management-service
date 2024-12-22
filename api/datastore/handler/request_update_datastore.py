@@ -29,20 +29,7 @@ class RequestUpdateDatastore(AbstractHandler):
                 Directory.update_directory(self.request_id, old_path, new_path)
                 self.payload['path'] = new_path
 
-                # GET DATASETS OF DATASTORE
-                dao_request = Request()
-                dao_response = dao_request.read_list(self.request_id, Constant.table['DATASET'], {"datastore_id": self.datastore_id})
-                if dao_response['response']:
-                    for dataset in dao_response['response']:
-  
-                        old_path_dataset = dataset['path']
-                        splits = old_path_dataset.split("/")
-                        
-                        # shift split
-                        old_path_component = "/".join(splits[1:])
-                        new_path_dataset = os.path.join(new_path, old_path_component)
-                    
-                        dao_request.update(self.request_id, Constant.table['DATASET'], "dataset_id", dataset['dataset_id'], {"path": new_path_dataset})
+                
             
             # Update datastore into DB
             dao_request = Request()

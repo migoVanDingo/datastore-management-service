@@ -40,7 +40,7 @@ def get_dataset_by_id():
 # Get all datasets
 ## -> by datastore
 @dataset_api.route('/dataset/list', methods=['GET'])
-def get_datasets_by_datastore(id):
+def get_datasets_by_datastore():
     args = dict(request.args)
     request_id = g.request_id
     current_app.logger.info(f"{request_id} --- ENDPOINT: {__name__}")

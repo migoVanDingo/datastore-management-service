@@ -17,6 +17,7 @@ class RequestCreateDataset(AbstractHandler):
     def __init__(self, request_id: str, payload: IInsertDataset):
         self.request_id = request_id
         self.payload = payload
+        self.payload['path'] = '/tmp'
 
     def do_process(self):
         try:
@@ -25,7 +26,7 @@ class RequestCreateDataset(AbstractHandler):
             # GET DATASTORE RECORD
             dao_request = Request()
             dao_response = dao_request.read(self.request_id, Constant.table['DATASTORE'], {"datastore_id": self.payload['datastore_id']})
-            self.payload['path'] = dao_response['response']['path']
+            datastore_path = dao_response['response']['path']
 
             # INSERT DATASET RECORD
             dao_request = Request()
@@ -36,6 +37,7 @@ class RequestCreateDataset(AbstractHandler):
                 raise ThrowError("Failed to create dataset", 500)
             
             # CREATE DATASET DIRECTORY STRUCTURE
+            self.payload['path'] = datastore_path
             dataset_path = Directory.dataset_directory_structure(self.request_id, self.payload['path'], self.payload['name'], dao_response['response']['dataset_id'], Constant.dataset['directories'])
 
             if not dataset_path:
@@ -43,6 +45,7 @@ class RequestCreateDataset(AbstractHandler):
                 raise ThrowError("Failed to create directory", 500)
             
             # UPDATE DATASET PATH
+            
             dao_request.update(self.request_id, Constant.table['DATASET'], "dataset_id", dao_response['response']['dataset_id'], {"path": dataset_path})
             
             current_app.logger.info(f"{self.request_id} --- {self.__class__.__name__} --- ACTION: CREATE_DATASET --- RESPONSE: {dao_response['response']}")
