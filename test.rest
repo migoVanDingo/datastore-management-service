@@ -1,19 +1,45 @@
 ###
+# Upload a file to a datastore
+POST http://localhost:5012/api/files/upload
+Content-Type: multipart/form-data; boundary=boundary
+
+--boundary
+Content-Disposition: form-data; name="file"; filename="gTruth-tynty_30fps.csv"
+Content-Type: text/csv
+
+@/Users/bubz/Developer/master-project/VJ/vj_tarballs/vj/Dropbox/typing-notyping/C1L1P-A/20170302/gTruth-tynty_30fps.csv
+--boundary
+Content-Disposition: form-data; name="data"
+Content-Type: multipart/form-data
+
+{
+  "datastore_id": "DSTR3YER8KPKDEODAIIFCZFP5",
+  "dataset_id": "DSET7YFKYDRVB0TYOVBXVWHEX",
+  "file_name": "gTruth-tynty_30fps.csv",
+  "file_type": "audio",
+  "file_size": 10,
+  "create_method": "upload",
+  "metadata": "{\"key1\":\"value1\"}"
+}
+--boundary--
+
+
+###
 # Delete Datastore (Soft delete)
 DELETE http://localhost:5012/api/datastore/<datastore_id>
 
 ###
 # Get datastore list
-GET http://localhost:5012/api/datastore/list?datastore_id=<datastore_id>
+GET http://localhost:5012/api/dataset/list?dataset_id=DSET0IO2EZGP3OM5W1AKB0U7A
 Content-type: application/json
 
 ###
 # Update Datastore 
-PUT http://localhost:5012/api/datastore/DSTR0ELLPV56XT94P5Q5I3P9L
+PUT http://localhost:5012/api/dataset/DSET7YFKYDRVB0TYOVBXVWHEX
 Content-Type: application/json
 
 {
-  "name":"dssto3"
+  "name":"set_1"
 }
 ###
 # Get a datastore with a filter. Can accept multiple args
@@ -22,13 +48,24 @@ Content-type: application/json
 
 ###
 # Create Datastore via datastore-management-service
+POST http://localhost:5012/api/datastore
+Content-Type: application/json
+
+{
+  "name": "datastore1",
+  "description": "datastore1 desc"
+
+  
+}
+###
 POST http://localhost:5012/api/dataset
 Content-Type: application/json
 
 {
-  "name": "s2",
-  "description": "s2 desc",
-  "datastore_id": "DSTR0ELLPV56XT94P5Q5I3P9L"
+  "name": "s3",
+  "description": "s3 desc",
+  "datastore_id": "DSTR3YER8KPKDEODAIIFCZFP5"
+
   
 }
 ###

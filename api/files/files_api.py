@@ -10,8 +10,8 @@ files_api = Blueprint('files_api', __name__)
 def upload_files():
     request_id = g.request_id
     data = request.form
+    data = json.loads(data.get('data'))
     files = request.files
-    current_app.logger.info(f"{request_id} --- ENDPOINT: {__name__}")
     api_request = RequestUploadFiles(request_id, data, files)
     response = api_request.do_process()
     return response

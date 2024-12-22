@@ -1,9 +1,11 @@
+import traceback
 from typing import IO, Optional
 from flask import current_app
 from pydantic import BaseModel
 from classes.file_handler import FileHandler
 from interface.abstract_handler import AbstractHandler
 from utility.error import ThrowError
+from utility.payload.file_payload import FilePayload
 
 class IUploadFile(BaseModel):
     datastore_id: str
@@ -29,13 +31,15 @@ class RequestUploadFiles(AbstractHandler):
             file_handler = FileHandler()
             
             # For each file, save it to filesystem and save record in database
-            for file in self.files:
-                file_handler.save_file_dir(self.request_id, self.payload['file_path'], file)
+            for file in self.files.getlist('file'):
+                destination_path = file_handler.get_destination_dir(self.request_id, self.payload['file_type'], self.payload['datastore_id'], self.payload['dataset_id'])
+                file_handler.save_file_dir(self.request_id, destination_path, file)
+                self.payload['file_path'] = destination_path
                 file_handler.save_file_db(self.request_id, self.payload)    
 
             response = {"message": "Files uploaded successfully", "status": 200}
             return response
         except Exception as e:
-            current_app.logger.error(f"{self.request_id} --- {__name__} --- {e}")
+            current_app.logger.error(f"{self.request_id} --- {__name__} --- {traceback.format_exc()} --- {e}")
             raise ThrowError(f"There was an error uploading files. {e}", 500)
         

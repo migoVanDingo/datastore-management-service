@@ -52,3 +52,20 @@ class Constant:
     files = {
         "metadata": "-metadata.json"
     }
+
+    file_dir = {
+        "datastore": {
+            "audio": "raw_data/audio",
+            "images": "raw_data/images",
+            "videos": "raw_data/videos",
+            "other": "raw_data/other"
+        },
+        "dataset": {
+            "ground_truth": "ground_truth",
+            "preprocessed_data": "preprocessed_data",
+            "model": "models",
+            "prediction": "predictions",
+            "annotation": "annotations",
+        }
+
+    }

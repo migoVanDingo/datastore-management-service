@@ -13,6 +13,7 @@ class ISaveFile(BaseModel):
     create_method: Optional[str] = None
     metadata: Optional[str] = None
 
+
 class FilePayload:
     @staticmethod
     def form_save_file_payload(data) -> ISaveFile:
@@ -26,4 +27,21 @@ class FilePayload:
             "create_method": data['create_method'],
             "metadata": data['metadata']
         }
+        return payload
+
+    @staticmethod
+    def parse_form_data(data) -> ISaveFile:
+
+
+        payload = {
+            "datastore_id": data.get('datastore_id'),
+            "dataset_id": data.get('dataset_id'),
+            "file_name": data.get('file_name'),
+            "file_path": data.get('file_path'),
+            "file_size": data.get('file_size'),
+            "file_type": data.get('file_type'),
+            "create_method": data.get('create_method'),
+            "metadata": data.get('metadata')
+        }
+
         return payload
