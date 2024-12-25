@@ -32,9 +32,9 @@ class RequestUploadFiles(AbstractHandler):
             
             # For each file, save it to filesystem and save record in database
             for file in self.files.getlist('file'):
-                destination_path = file_handler.get_destination_dir(self.request_id, self.payload['file_type'], self.payload['datastore_id'], self.payload['dataset_id'])
+                destination_path, path_suffix = file_handler.get_destination_dir(self.request_id, self.payload['file_type'], self.payload['datastore_id'], self.payload['dataset_id'])
                 file_handler.save_file_dir(self.request_id, destination_path, file)
-                self.payload['file_path'] = destination_path
+                self.payload['file_path'] = path_suffix
                 file_handler.save_file_db(self.request_id, self.payload)    
 
             response = {"message": "Files uploaded successfully", "status": 200}

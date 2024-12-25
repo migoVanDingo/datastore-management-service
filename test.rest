@@ -16,7 +16,7 @@ Content-Type: multipart/form-data
   "datastore_id": "DSTR3YER8KPKDEODAIIFCZFP5",
   "dataset_id": "DSET7YFKYDRVB0TYOVBXVWHEX",
   "file_name": "gTruth-tynty_30fps.csv",
-  "file_type": "audio",
+  "file_type": "video",
   "file_size": 10,
   "create_method": "upload",
   "metadata": "{\"key1\":\"value1\"}"

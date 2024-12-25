@@ -56,8 +56,8 @@ class Constant:
     file_dir = {
         "datastore": {
             "audio": "raw_data/audio",
-            "images": "raw_data/images",
-            "videos": "raw_data/videos",
+            "image": "raw_data/images",
+            "video": "raw_data/videos",
             "other": "raw_data/other"
         },
         "dataset": {
