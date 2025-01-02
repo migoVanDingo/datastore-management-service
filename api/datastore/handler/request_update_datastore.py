@@ -5,7 +5,6 @@ from classes.directory import Directory
 from interface.abstract_handler import AbstractHandler
 from utility.constant import Constant
 from utility.error import ThrowError
-from utility.payload.request_payload import RequestPayload
 from utility.request import Request
 
 
