@@ -1,10 +1,12 @@
 from typing import Optional
 from flask import current_app
 from pydantic import BaseModel
+from api.dataset_roles.handler.request_create_dataset_role import RequestCreateDatasetRole
 from classes.directory import Directory
 from interface.abstract_handler import AbstractHandler
 from utility.constant import Constant
 from utility.error import ThrowError
+from utility.payload.dataset_payload import DatasetPayload
 from utility.request import Request
 
 class IInsertDataset(BaseModel):
@@ -30,7 +32,7 @@ class RequestCreateDataset(AbstractHandler):
 
             # INSERT DATASET RECORD
             dao_request = Request()
-            dao_response = dao_request.insert(self.request_id, Constant.table['DATASET'], self.payload)
+            dao_response = dao_request.insert(self.request_id, Constant.table['DATASET'], DatasetPayload.form_dataset_insert_payload(self.payload))
 
             if not dao_response:
                 current_app.logger.error(f"{self.request_id} --- {self.__class__.__name__} --- ACTION: CREATE_DATASET --- ERROR: Failed to create dataset")
@@ -51,6 +53,16 @@ class RequestCreateDataset(AbstractHandler):
             current_app.logger.info(f"{self.request_id} --- {self.__class__.__name__} --- ACTION: CREATE_DATASET --- RESPONSE: {dao_response['response']}")
 
             del dao_response['response']['path']
+
+            # Create dataset role
+            api_request = RequestCreateDatasetRole(self.request_id, {"dataset_id": dao_response['response']['dataset_id'], "user_id": self.payload['user_id'], "role": "owner", "level": 100})
+            create_role_response = api_request.do_process()
+
+            if not create_role_response:
+                current_app.logger.error(f"{self.request_id} --- {self.__class__.__name__} --- ACTION: CREATE_DATASET_ROLE --- ERROR: Failed to create dataset role")
+                raise ThrowError("Failed to create dataset role", 500)
+
+
             
             return dao_response['response']
         except Exception as e:

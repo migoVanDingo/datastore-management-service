@@ -18,6 +18,7 @@ class Constant:
         "DATASTORE": "datastore",
         "DATASTORE_ROLES": "datastore_roles",
         "DATASET": "dataset",
+        "DATASET_ROLES": "dataset_roles",
         "FILES": "files",
     }
 
