@@ -16,6 +16,7 @@ class Constant:
 
     table = {
         "DATASTORE": "datastore",
+        "DATASTORE_ROLES": "datastore_roles",
         "DATASET": "dataset",
         "FILES": "files",
     }

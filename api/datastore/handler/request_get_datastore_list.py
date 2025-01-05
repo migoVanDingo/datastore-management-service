@@ -1,5 +1,6 @@
 from flask import current_app
 from interface.abstract_handler import AbstractHandler
+from utility.constant import Constant
 from utility.error import ThrowError
 from utility.request import Request
 
@@ -15,7 +16,11 @@ class RequestGetDatastoreList(AbstractHandler):
             current_app.logger.info(f"{self.request_id} --- {self.__class__.__name__} -- ARGS: {self.args}")
 
             dao_request = Request()
-            dao_response = dao_request.read_list(self.request_id, "datastore", self.args)
+
+            
+            table = Constant.table["DATASTORE"]
+
+            dao_response = dao_request.read_list(self.request_id, table, self.args)
 
             if not dao_response:
                 current_app.logger.error(f"{self.request_id} --- {self.__class__.__name__} --- ACTION: GET_DATASTORE --- ERROR: Failed to get datastore")

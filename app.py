@@ -4,6 +4,7 @@ from flask_cors import CORS
 import logging
 from api.dataset.dataset_api import dataset_api
 from api.datastore.datastore_api import datastore_api
+from api.datastore_roles.datastore_role_api import datastore_role_api
 from api.files.files_api import files_api
 from utility.error import ThrowError
 
@@ -20,6 +21,7 @@ def create_app():
     app.register_blueprint(datastore_api, url_prefix='/api')
     app.register_blueprint(dataset_api, url_prefix='/api')
     app.register_blueprint(files_api, url_prefix='/api')
+    app.register_blueprint(datastore_role_api, url_prefix='/api')
 
     return app
 
