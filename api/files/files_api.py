@@ -1,12 +1,17 @@
 from flask import Blueprint, current_app, g, json, request
 
+from api.files.handler.request_copy_files import RequestCopyFiles
+from api.files.handler.request_delete_files import RequestDeleteFiles
+from api.files.handler.request_download_files import RequestDownloadFiles
+from api.files.handler.request_get_files_list import RequestGetFilesList
+from api.files.handler.request_move_files import RequestMoveFiles
 from api.files.handler.request_upload_files import RequestUploadFiles
 
 
 files_api = Blueprint('files_api', __name__)
 
 # UPLOAD FILE
-@files_api.route('/files/upload', methods=['POST'])
+@files_api.route('/dataset/file/upload', methods=['POST'])
 def upload_files():
     request_id = g.request_id
     data = request.form
@@ -17,7 +22,7 @@ def upload_files():
     return response
 
 # GET FILE LIST
-@files_api.route('/files/list', methods=['GET'])
+@files_api.route('/dataset/file/list', methods=['GET'])
 def get_files_list():
     args = dict(request.args)
     request_id = g.request_id
@@ -27,7 +32,7 @@ def get_files_list():
     return response
 
 # DOWNLOAD FILE
-@files_api.route('/files/download', methods=['GET'])
+@files_api.route('/dataset/file/download', methods=['GET'])
 def download_files():
     args = dict(request.args)
     request_id = g.request_id
@@ -37,7 +42,7 @@ def download_files():
     return response
 
 # MOVE FILE
-@files_api.route('/files/move', methods=['PUT'])
+@files_api.route('/dataset/file/move', methods=['PUT'])
 def move_files():
     data = json.loads(request.data)
     request_id = g.request_id
@@ -47,7 +52,7 @@ def move_files():
     return response
 
 # COPY FILE
-@files_api.route('/files/copy', methods=['PUT'])
+@files_api.route('/dataset/file/copy', methods=['PUT'])
 def copy_files():
     data = json.loads(request.data)
     request_id = g.request_id
@@ -57,7 +62,7 @@ def copy_files():
     return response
 
 # DELETE FILE
-@files_api.route('/files/delete', methods=['DELETE'])
+@files_api.route('/dataset/file/delete', methods=['DELETE'])
 def delete_files():
     args = dict(request.args)
     request_id = g.request_id
