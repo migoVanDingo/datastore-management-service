@@ -11,18 +11,18 @@ from api.files.handler.request_upload_files import RequestUploadFiles
 files_api = Blueprint('files_api', __name__)
 
 # UPLOAD FILE
-@files_api.route('/dataset/file/upload', methods=['POST'])
+@files_api.route('/datastore/file/upload', methods=['POST'])
 def upload_files():
     request_id = g.request_id
-    data = request.form
-    data = json.loads(data.get('data'))
+    data = request.form.to_dict()
+    current_app.logger.info(f"{request_id} --- ENDPOINT: {__name__} -- PAYLOAD: {data}")   
     files = request.files
     api_request = RequestUploadFiles(request_id, data, files)
     response = api_request.do_process()
     return response
 
 # GET FILE LIST
-@files_api.route('/dataset/file/list', methods=['GET'])
+@files_api.route('/datastore/file/list', methods=['GET'])
 def get_files_list():
     args = dict(request.args)
     request_id = g.request_id
@@ -32,7 +32,7 @@ def get_files_list():
     return response
 
 # DOWNLOAD FILE
-@files_api.route('/dataset/file/download', methods=['GET'])
+@files_api.route('/datastore/file/download', methods=['GET'])
 def download_files():
     args = dict(request.args)
     request_id = g.request_id
@@ -42,7 +42,7 @@ def download_files():
     return response
 
 # MOVE FILE
-@files_api.route('/dataset/file/move', methods=['PUT'])
+@files_api.route('/datastore/file/move', methods=['PUT'])
 def move_files():
     data = json.loads(request.data)
     request_id = g.request_id
@@ -52,7 +52,7 @@ def move_files():
     return response
 
 # COPY FILE
-@files_api.route('/dataset/file/copy', methods=['PUT'])
+@files_api.route('/datastore/file/copy', methods=['PUT'])
 def copy_files():
     data = json.loads(request.data)
     request_id = g.request_id
@@ -62,7 +62,7 @@ def copy_files():
     return response
 
 # DELETE FILE
-@files_api.route('/dataset/file/delete', methods=['DELETE'])
+@files_api.route('/datastore/file/delete', methods=['DELETE'])
 def delete_files():
     args = dict(request.args)
     request_id = g.request_id
@@ -70,6 +70,8 @@ def delete_files():
     api_request = RequestDeleteFiles(request_id, args)
     response = api_request.do_process()
     return response
+
+
 
 
 

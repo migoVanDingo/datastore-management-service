@@ -92,6 +92,16 @@ class Request:
             current_app.logger.error(f"{request_id} --- {self.__class__.__name__} --- {traceback.format_exc()} --- {e}")
             raise ThrowError("Failed to read data", 500)
         
+    def read_all(self, request_id="READ_ALL", query=None):
+        try:
+            url = Constant.base_url + Constant.dao_port + Constant.dao["read_all"]
+           
+            payload={"query":query}
+      
+            response = requests.post(url, headers=self.headers, json=payload)
+            return response.json()
+        except Exception as e:
+            current_app.logger.error(f"{request_id} --- {self.__class__.__name__} --- {traceback.format_exc()} --- {e}")
 
     def update(self, request_id, table_name, key, value, data):
         """Update data in the database

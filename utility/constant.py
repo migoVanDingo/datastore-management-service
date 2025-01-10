@@ -11,7 +11,8 @@ class Constant:
         "read": "/api/read",
         "list": "/api/read_list",
         "update": "/api/update",
-        "delete": "/api/delete"
+        "delete": "/api/delete",
+        "read_all": "/api/read_all"
     }
 
     table = {
@@ -48,6 +49,7 @@ class Constant:
             "models",
             "predictions",
             "annotations",
+            "misc"
         ],
 
     }
