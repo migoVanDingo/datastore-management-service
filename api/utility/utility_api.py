@@ -15,7 +15,7 @@ utility_api = Blueprint('utility_api', __name__)
 def health():
     try:
         dao_request = Request()
-        add_videos_response = dao_request.read_all(request_id="READ_ALL", query="SELECT * FROM aolme_videos WHERE set_id IS NULL AND idx BETWEEN 8950 AND 9353")
+        add_videos_response = dao_request.read_all(request_id="READ_ALL", query="SELECT * FROM aolme_videos WHERE set_id IS NULL AND idx BETWEEN 9170 AND 9353")
         #8786
         #8938
         current_app.logger.info(f"Response len: {len(add_videos_response['response'])}")
@@ -48,33 +48,41 @@ def health():
             video_name = video["video_name"]
 
             # Split by _ and get first element. 
-            name_split = video_name.split("_")
+            name_split = video_name.split("-")
+            name_minus_q = name_split[0] + "-" + name_split[1] + "-" + name_split[2] + "-" + name_split[3] + "-" + name_split[4] + "-" + name_split[5]
+
+            q_split = name_split[7].split("_")
+            q = q_split[1].replace(".mp4", "")
+            new_index = name_minus_q + "_" + q
+
+            final_split = name_split[7].split("_")[0]
+            video_name = name_minus_q + "_" + q + "_" + name_split[6] + "-" + final_split + ".mp4"
 
             # If element not in dictionary add it as key and generate q2 and q3 subfields.
             current_set_id = "" 
 
-            name_2 = name_split[2].replace(".mp4", "")
+            #name_2 = name_split[2].replace(".mp4", "")
             
             # For first 8786
             #new_index = name_split[0] + "_" + name_split[1]
-            new_index = name_split[0] + "_" + name_2
+            #new_index = name_split[0] + "_" + name_2
             if len(name_split) >= 2:
                 
                 if new_index not in group_dict:
                     # Check if second element is q2 or q3, if value is null generate set_id and update the video record with the set_id
                     current_set_id = generate_id()
-                    if name_2 == "q2":
+                    if q == "q2":
                         group_dict[new_index] = {"q2": current_set_id, "q3": None}
-                    elif name_2 == "q3":
+                    elif q == "q3":
                         group_dict[new_index] = {"q2": None, "q3": current_set_id}
                 else:
                     # Else get the set_id and update the video record with the set_id
-                    current_set_id = group_dict[new_index]["q2"] if name_2 == "q2" else group_dict[new_index]["q3"]
+                    current_set_id = group_dict[new_index]["q2"] if q == "q2" else group_dict[new_index]["q3"]
             else: 
                 print(f"NAME_SPLIT_WEIRD -- Skipping video: {video_name}")
                 continue
 
-            video_name = name_split[0] + "_" + name_2 + "_" + name_split[1] + ".mp4"
+            #video_name = name_split[0] + "_" + q + "_" + name_split[1] + ".mp4"
             
             # Update set_name with first element
             dao_request.update("UPDATE_AOLME_VIDEOS", "aolme_videos", "video_id", video["video_id"], {"set_id": current_set_id, "set_name": new_index, "video_name": video_name})
@@ -84,13 +92,14 @@ def health():
 
             current_in_set = None
             total_in_set = None
-            if len(name_split) > 2 and "-" in name_split[1]:
-                set_num_split = name_split[1].split("-")
+            if len(name_split) > 6:
+                #set_num_split = name_split[1].split("-")
             
 
-                total_in_set = set_num_split[1]
-                current_in_set = set_num_split[0]
+                total_in_set = name_split[7].split("_")[0]
+                current_in_set = name_split[6]
                 #remove leading zero from current_in_set
+                total_in_set = total_in_set.lstrip("0")
                 current_in_set = current_in_set.lstrip("0")
 
 
