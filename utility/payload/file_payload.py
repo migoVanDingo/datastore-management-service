@@ -51,3 +51,13 @@ class FilePayload:
         }
 
         return payload
+    
+
+    @staticmethod
+    def form_insert_datastore_file_payload(data) -> dict:
+        payload = {
+            "datastore_id": data.get('datastore_id'),
+            "file_id": data.get('file_id'),
+            "created_by": data.get('created_by'),
+        }
+        return payload

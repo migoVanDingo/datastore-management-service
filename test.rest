@@ -1,4 +1,44 @@
 ###
+GET http://localhost:5012/api/datastore/migrate/files
+
+
+###
+# Insert datastore config
+POST http://localhost:5010/api/create
+Content-Type: application/json
+
+{
+    "table_name": "datastore_config",
+     "payload": {
+        "datastore_id": "DST872RMUXRDUUYRBO3TKZIS0",
+        "field_name": "quality",
+        "field_label": "quality",
+        "field_type": "string",
+        "order_index": 7
+     },
+     "service": "datastore-management-service",
+     "request_id": "df8123"
+}
+
+###DELETE f1 FROM files f1 JOIN files f2 ON f1.file_name = f2.file_name AND f1.created_at > f2.created_at;
+POST http://localhost:5010/api/read
+Content-Type: application/json
+
+{
+    "table_name": "datastore_config",
+    "filters": {
+        "datastore_id": "DST872RMUXRDUUYRBO3TKZIS0"
+    },
+    "service": "datastore-management-service",
+    "request_id": "df8123"
+}
+
+###
+# DO NOT RUN THIS UNLESS YOU ABSOLUTELY NEED TO AND KNOW WHAT YOU'RE DOING.
+# Migrate aolme-videos to a new datastore
+#GET http://localhost:5012/api/utility/datastore/add-aolme-videos
+
+###
 # Upload a file to a datastore
 POST http://localhost:5012/api/files/upload
 Content-Type: multipart/form-data; boundary=boundary

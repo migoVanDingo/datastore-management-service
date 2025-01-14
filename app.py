@@ -5,6 +5,7 @@ import logging
 from api.dataset.dataset_api import dataset_api
 from api.dataset_roles.dataset_role_api import dataset_role_api
 from api.datastore.datastore_api import datastore_api
+from api.datastore_config.datastore_config_api import datastore_config_api
 from api.datastore_roles.datastore_role_api import datastore_role_api
 from api.files.files_api import files_api
 from api.utility.utility_api import utility_api
@@ -26,6 +27,7 @@ def create_app():
     app.register_blueprint(datastore_role_api, url_prefix='/api')
     app.register_blueprint(dataset_role_api, url_prefix='/api')
     app.register_blueprint(utility_api, url_prefix='/api')
+    app.register_blueprint(datastore_config_api, url_prefix='/api')
 
     return app
 

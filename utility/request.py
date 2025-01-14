@@ -148,3 +148,22 @@ class Request:
     
 
         
+    def query(self, request_id, query):
+        """Query data from the database
+        Args:
+            request_id (str): Request ID
+            table_name (str): Table name
+            query (str): Query to be executed
+            
+            Returns:
+                response: Response from the DAO
+        """
+        try:
+            url = Constant.base_url + Constant.dao_port + Constant.dao["query"]
+            payload = RequestPayload.form_query_payload(request_id, self.service, query)
+            current_app.logger.info(f"{request_id} --- {self.__class__.__name__} --- QUERY PAYLOAD: {payload}")
+            response = requests.post(url, headers=self.headers, json=payload)
+            return response.json()
+        
+        except Exception as e:
+            current_app.logger.error(f"{request_id} --- {self.__class__.__name__} --- {traceback.format_exc()} --- {e}")

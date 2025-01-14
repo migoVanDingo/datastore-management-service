@@ -19,7 +19,7 @@ class RequestGetFilesList(AbstractHandler):
             get_list_response = dao_request.read_list(self.request_id, Constant.table["FILES"], self.args)
             
             if not get_list_response["response"]:
-                raise ThrowError(f"Failed to get files list. Query Args: {self.args}", 404)
+                return []
             
             current_app.logger.info(f"{self.request_id} --- {self.__class__.__name__} --- Files list: {get_list_response['response']}")
 
@@ -28,4 +28,4 @@ class RequestGetFilesList(AbstractHandler):
 
         except Exception as e:
             current_app.logger.error(f"{self.request_id} --- {self.__class__.__name__} --- {traceback.format_exc()} --- {e}")
-            raise ThrowError("Failed to get files list", 500)
+            raise ThrowError(f"Failed to get files list. Query Args: {self.args}", 404)

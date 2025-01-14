@@ -12,7 +12,8 @@ class Constant:
         "list": "/api/read_list",
         "update": "/api/update",
         "delete": "/api/delete",
-        "read_all": "/api/read_all"
+        "read_all": "/api/read_all",
+        "query": "/api/query"
     }
 
     table = {
@@ -21,6 +22,7 @@ class Constant:
         "DATASET": "dataset",
         "DATASET_ROLES": "dataset_roles",
         "FILES": "files",
+        "DATASTORE_CONFIG": "datastore_config",
     }
 
     delimeter = {

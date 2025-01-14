@@ -84,3 +84,12 @@ class RequestPayload:
             "request_id": request_id
         }
         return payload
+    
+    @staticmethod
+    def form_query_payload( request_id, service, query) -> IRead:
+        payload = {
+            "query": query,
+            "service": service,
+            "request_id": request_id
+        }
+        return payload
