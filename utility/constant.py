@@ -33,8 +33,8 @@ class Constant:
 
     datastore = {
         "directories": [
-            "raw_data/videos",
-            "raw_data/images",
+            "raw_data/video",
+            "raw_data/image",
             "raw_data/audio",
             "raw_data/other",
             "datasets",
@@ -46,8 +46,8 @@ class Constant:
     dataset = {
         "directories": [
             "ground_truth",
-            "preprocessed_data/videos",
-            "preprocessed_data/images",
+            "preprocessed_data/video",
+            "preprocessed_data/image",
             "preprocessed_data/audio",
             "models",
             "predictions",
@@ -63,8 +63,8 @@ class Constant:
     file_dir = {
         "datastore": {
             "audio": "raw_data/audio",
-            "image": "raw_data/images",
-            "video": "raw_data/videos",
+            "image": "raw_data/image",
+            "video": "raw_data/video",
             "other": "raw_data/other"
         },
         "dataset": {
