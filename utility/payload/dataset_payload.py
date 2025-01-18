@@ -35,3 +35,15 @@ class DatasetPayload:
             "level": data.get("level")
         }
         return payload
+    
+
+    @staticmethod
+    def form_dataset_files_insert_payload(data: dict) -> dict:
+        payload = {
+            "dataset_id": data.get("dataset_id"),
+            "file_id": data.get("file_id"),
+            "created_by": data.get("user_id"),
+            "set_id": data.get("set_id"),
+            "file_type": data.get("file_type")
+        }
+        return payload

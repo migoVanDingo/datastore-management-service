@@ -1,8 +1,10 @@
 from flask import Blueprint, current_app, g, json, request
 
+from api.files.handler.request_add_file_to_dataset import RequestAddFileToDataset
 from api.files.handler.request_copy_files import RequestCopyFiles
 from api.files.handler.request_delete_files import RequestDeleteFiles
 from api.files.handler.request_download_files import RequestDownloadFiles
+from api.files.handler.request_get_dataset_files_list import RequestGetDatasetFilesList
 from api.files.handler.request_get_files_list import RequestGetFilesList
 from api.files.handler.request_move_files import RequestMoveFiles
 from api.files.handler.request_search_files_metadata import RequestSearchFilesMetadata
@@ -92,6 +94,27 @@ def delete_files():
     response = api_request.do_process()
     return response
 
+
+#ADD FILED TO DATASET FROM DATASTORE    
+@files_api.route('/datastore/file/dataset/add', methods=['POST'])
+def add_file_to_dataset():
+    data = json.loads(request.data)
+    request_id = g.request_id
+    current_app.logger.info(f"{request_id} --- ENDPOINT: {__name__}")
+    api_request = RequestAddFileToDataset(request_id, data)
+    response = api_request.do_process()
+    return response
+
+
+#GET DATASET FILES LIST
+@files_api.route('/datastore/dataset/files/list', methods=['GET'])
+def get_dataset_files_list():
+    args = dict(request.args)
+    request_id = g.request_id
+    current_app.logger.info(f"{request_id} --- ENDPOINT: {__name__}")
+    api_request = RequestGetDatasetFilesList(request_id, args)
+    response = api_request.do_process()
+    return response
 
 
 

@@ -23,6 +23,7 @@ class Constant:
         "DATASET_ROLES": "dataset_roles",
         "FILES": "files",
         "DATASTORE_CONFIG": "datastore_config",
+        "DATASET_FILES": "dataset_files",
     }
 
     delimeter = {

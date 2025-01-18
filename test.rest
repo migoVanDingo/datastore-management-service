@@ -114,11 +114,13 @@ POST http://localhost:5010/api/create
 Content-Type: application/json
 
 {
-    "table_name": "datastore",
+    "table_name": "job_tasks",
      "payload": {
-        "name": "test2",
-        "description": "test2",
-        "path": "/tmp"
+        "service": "DATASTORE_MANAGEMENT_SERVICE",
+        "task_name": "SYNC_IMPORT_STORAGE",
+        "order_index": 8,
+        "job_name": "LABEL_PROJECT_INITIALIZATION"
+
         },
      "service": "datastore-management-service",
      "request_id": "df8123"
