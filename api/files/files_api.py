@@ -9,6 +9,7 @@ from api.files.handler.request_get_files_list import RequestGetFilesList
 from api.files.handler.request_move_files import RequestMoveFiles
 from api.files.handler.request_search_files_metadata import RequestSearchFilesMetadata
 from api.files.handler.request_upload_files import RequestUploadFiles
+from utility.decorator import unavailable
 from utility.migrate_files_to_datastore_files import MigrateFiles
 
 
@@ -17,6 +18,7 @@ files_api = Blueprint('files_api', __name__)
 
 #migrate files
 @files_api.route('/datastore/migrate/files', methods=['GET'])
+@unavailable(message="NON-OPERATIONAL: For data migration purposes only", status_code=503)
 def migrate_files():
     request_id = g.request_id
     current_app.logger.info(f"{request_id} --- ENDPOINT: {__name__}")

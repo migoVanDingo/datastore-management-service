@@ -117,9 +117,9 @@ Content-Type: application/json
     "table_name": "job_tasks",
      "payload": {
         "service": "DATASTORE_MANAGEMENT_SERVICE",
-        "task_name": "SYNC_IMPORT_STORAGE",
-        "order_index": 8,
-        "job_name": "LABEL_PROJECT_INITIALIZATION"
+        "task_name": "UPDATE_DATASTORE_FILE",
+        "order_index": 6,
+        "job_name": "HANDLE_LABEL_PROJECT_UPDATE"
 
         },
      "service": "datastore-management-service",

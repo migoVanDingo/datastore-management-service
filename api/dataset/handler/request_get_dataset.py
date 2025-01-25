@@ -17,7 +17,7 @@ class RequestGetDataset(AbstractHandler):
             dao_request = Request()
             dao_response = dao_request.read(self.request_id, Constant.table["DATASET"], self.dataset_id)
 
-            if not dao_response:
+            if not dao_response or "response" not in dao_response:
                 current_app.logger.error(f"{self.request_id} --- {self.__class__.__name__} --- ACTION: GET_DATASET --- ERROR: Failed to get dataset")
                 raise ThrowError("Failed to get Dataset", 500)
             

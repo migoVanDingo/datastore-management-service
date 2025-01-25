@@ -6,10 +6,10 @@ import requests
 
 class Download:
     @staticmethod
-    def download_file(self, file_link, directory, file):
+    def download_file(file_link, directory, file):
         try:
             
-            current_app.logger.debug(f"{self.__class__.__name__} - Downloading... {file_link} to {os.path.join(directory, file)}")
+            current_app.logger.debug(f"{__class__.__name__} - Downloading... {file_link} to {os.path.join(directory, file)}")
 
             r = requests.get(file_link, stream=True)
 
@@ -19,11 +19,11 @@ class Download:
                         f.write(chunk)
 
 
-            #self.add_to_subset_items(self.ds_subset_id, file["file_id"], file["file_name"], self.owner, os.path.join(directory, file["file_name"]), "file")
+            #add_to_subset_items(ds_subset_id, file["file_id"], file["file_name"], owner, os.path.join(directory, file["file_name"]), "file")
 
-            current_app.logger.debug(f"{self.__class__.__name__} - Download Complete!! {file_link} to {os.path.join(directory, file)}")
+            current_app.logger.debug(f"{__class__.__name__} - Download Complete!! {file_link} to {os.path.join(directory, file)}")
 
             return True
         except Exception as e:
-            current_app.logger.error(f"{self.__class__.__name__} :::: {traceback.format_exc()} -- {e}")
+            current_app.logger.error(f"{__class__.__name__} :::: {traceback.format_exc()} -- {e}")
             return False

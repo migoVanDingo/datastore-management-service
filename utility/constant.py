@@ -54,6 +54,14 @@ class Constant:
             "annotations",
             "misc"
         ],
+        "ANNOTATION": {
+            "DIRECTORY": {
+                "LABELER_OUTPUT": "labeler-output",
+                "MODEL_OUTPUT": "model-output",
+                "PROCESSED": "processed",
+                "OTHER": "other"
+            }
+        }
 
     }
     files = {

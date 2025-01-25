@@ -36,14 +36,14 @@ Class RequestVerifyFileset:
 
 
 
-class RequestVerifyFileset(AbstractHandler):
-    def __init__(self, request_id: str, payload: IVerifyFileset):
+class RequestGetFilesetPath(AbstractHandler):
+    def __init__(self, request_id: str, payload: dict):
         self.request_id = request_id
         self.payload = payload
 
     def do_process(self):
         try:
-            current_app.logger.debug(f"{self.request_id} --- {self.__class__.__name__} --- Verify fileset: {self.payload}")
+            current_app.logger.debug(f"{self.request_id} --- {self.__class__.__name__} --- GET_DATASTORE_SET_DIRECTORY: {self.payload}")
 
             # Use datastore_id to get the datastore directory
             datastore_id = self.payload['datastore_id']
@@ -66,41 +66,9 @@ class RequestVerifyFileset(AbstractHandler):
             current_app.logger.debug(f"{self.request_id} --- {self.__class__.__name__} --- Set ID: {set_id} --- Set Type: {set_type} --- Datastore Directory: {datastore_directory}")
             set_path = os.path.join(datastore_directory, "raw_data", set_type, set_id)
 
-            # Check if the file set directory exists
+            # Check if directory exists
             if not os.path.exists(set_path):
-                # Make directories
                 os.makedirs(set_path)
-                current_app.logger.debug(f"{self.request_id} --- {self.__class__.__name__} --- Set Directory created: {set_path}")
-
-            # Files from 
-            query = f"SELECT df.dataset_id, df.file_id, df.set_id, f.* FROM dataset_files df JOIN files f ON df.file_id = f.file_id WHERE df.set_id = '{set_id}'"
-
-            response_files = dao_request.query(self.request_id, query)
-            current_app.logger.debug(f"{self.request_id} --- {self.__class__.__name__} --- response_files: {response_files}")
-            if not response_files or not response_files["response"]:
-                current_app.logger.error(f"{self.request_id} --- {self.__class__.__name__} --- No files found")
-                raise Exception(f"{self.request_id} --- No files found")
-            
-            
-            for file in response_files["response"]:
-                file_path = os.path.join(set_path, file["file_name"])
-                if not os.path.exists(file_path):
-
-                    # Check if create_method is LINK
-                    if file["create_method"] == "LINK":
-                        metadata = json.loads(file["metadata"])
-
-                        download_link = metadata["url"]
-                        if not Download.download_file(download_link, set_path, file["file_name"]):
-                            current_app.logger.error(f"{self.request_id} --- {self.__class__.__name__} --- Failed to download file: {file['file_name']}")
-                            raise Exception(f"{self.request_id} --- Failed to download file: {file['file_name']}")
-                            
-
-                    else:
-                        current_app.logger.error(f"{self.request_id} --- {self.__class__.__name__} --- File does not exist and cannot be downloaded -- ID: {file['file_id']} --- NAME: {file['file_name']}")
-                        raise Exception(f"{self.request_id} --- File does not exist and cannot be downloaded -- ID: {file['file_id']} --- NAME: {file['file_name']}")
-                else:
-                    current_app.logger.debug(f"{self.request_id} --- {self.__class__.__name__} --- File exists: {file_path}")
             
             return { "status": "SUCCESS", "data": {"set_path": set_path}}
 

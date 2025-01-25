@@ -2,3 +2,4 @@
 .datastore
 record.log
 *.pyc
+*.json
