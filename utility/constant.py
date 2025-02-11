@@ -5,6 +5,9 @@ class Constant:
 
     base_url = "http://localhost:"
     dao_port = "5010"
+    user_port = "5014"
+    refresh_token_endpoint = "/api/auth/refresh-token"
+    decode_token_endpoint = "/api/auth/decode-token"
 
     dao = {
         "create": "/api/create",
