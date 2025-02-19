@@ -9,6 +9,7 @@ from api.datastore.payload.payload_get_fileset_path import PayloadGetFilesetPath
 from api.datastore.payload.payload_verify_directories import PayloadVerifyDirectories
 from api.datastore.payload.payload_verify_fileset import PayloadVerifyFileset
 from api.datastore.handler.request_get_fileset_path import RequestGetFilesetPath
+from api.files.handler.request_add_annotation_to_dataset import RequestAddAnnotationToDataset
 
 
 job_utility_api = Blueprint('job_utility_api', __name__)
@@ -96,6 +97,27 @@ def verify_annotation_directories():
     data.update({"data_type": "annotation"})
 
     api_request = RequestVerifyDirectories(request_id, PayloadVerifyDirectories.form_payload(data))
+    response = api_request.do_process()
+    
+    if response["status"] == "SUCCESS":
+        res_data = response["data"]
+        # merge response with data
+        res_data.update(data)
+        return {"status": "SUCCESS", "data": res_data}
+
+    return response
+
+@job_utility_api.route('/datastore/annotation/add', methods=['POST'])
+def add_annotation_to_dataset():
+    data = json.loads(request.data)
+    if "request_id" in data:
+        request_id = data['request_id']
+    elif "job_id" in data:
+        request_id = data['job_id']
+    else:
+        request_id = g.request_id
+
+    api_request = RequestAddAnnotationToDataset(request_id, data)
     response = api_request.do_process()
     
     if response["status"] == "SUCCESS":

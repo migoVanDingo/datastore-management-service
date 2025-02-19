@@ -5,9 +5,9 @@ from utility.error import ThrowError
 
 
 class RequestMoveFiles(AbstractHandler):
-    def __init__(self, request_id: str, args: dict):
+    def __init__(self, request_id: str, payload: dict):
         self.request_id = request_id
-        self.args = args
+        self.payload = payload
 
     def do_process(self):
         try:

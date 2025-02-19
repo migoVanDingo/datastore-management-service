@@ -14,6 +14,7 @@ utility_api = Blueprint('utility_api', __name__)
 @utility_api.route('/utility/datastore/add-aolme-videos', methods=['GET'])
 def health():
     try:
+        return 'UNBLOCK TO RUN ENDPOINT'
         dao_request = Request()
         add_videos_response = dao_request.read_all(request_id="READ_ALL", query="SELECT * FROM aolme_videos WHERE set_id IS NULL AND idx BETWEEN 9170 AND 9353")
         #8786

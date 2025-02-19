@@ -19,7 +19,7 @@ logging.basicConfig(filename='record.log',
 
 def create_app():
     app = Flask(__name__)
-    CORS(app, supports_credentials=True, origins=["http://localhost:5173", "http://localhost:5017"])
+    CORS(app, supports_credentials=True, origins=["http://localhost:5173", "http://localhost:5174", "http://localhost:5017"])
 
     #Register blueprints
     app.register_blueprint(datastore_api, url_prefix='/api')

@@ -4,6 +4,7 @@ from api.files.handler.request_add_file_to_dataset import RequestAddFileToDatase
 from api.files.handler.request_copy_files import RequestCopyFiles
 from api.files.handler.request_delete_files import RequestDeleteFiles
 from api.files.handler.request_download_files import RequestDownloadFiles
+from api.files.handler.request_get_aolme_videos import RequestGetAolmeVideos
 from api.files.handler.request_get_dataset_files_list import RequestGetDatasetFilesList
 from api.files.handler.request_get_files_list import RequestGetFilesList
 from api.files.handler.request_move_files import RequestMoveFiles
@@ -67,23 +68,50 @@ def download_files():
     return response
 
 # MOVE FILE
-@files_api.route('/datastore/file/move', methods=['PUT'])
+@files_api.route('/datastore/file/move', methods=['POST'])
 def move_files():
     data = json.loads(request.data)
-    request_id = g.request_id
+
+    if "request_id" in data:
+        request_id = data['request_id']
+    elif "job_id" in data:
+        request_id = data['job_id']
+    else:
+        request_id = g.request_id
+
     current_app.logger.info(f"{request_id} --- ENDPOINT: {__name__}")
+
     api_request = RequestMoveFiles(request_id, data)
     response = api_request.do_process()
+
+    if "data" in response and response["status"] == "SUCCESS":
+        res_data = response["data"]
+        # merge response with data
+        res_data.update(data)
+        return {"status": "SUCCESS", "data": res_data}
     return response
 
 # COPY FILE
-@files_api.route('/datastore/file/copy', methods=['PUT'])
+@files_api.route('/datastore/file/copy', methods=['POST'])
 def copy_files():
     data = json.loads(request.data)
-    request_id = g.request_id
+    
+    if "request_id" in data:
+        request_id = data['request_id']
+    elif "job_id" in data:
+        request_id = data['job_id']
+    else:
+        request_id = g.request_id
+
     current_app.logger.info(f"{request_id} --- ENDPOINT: {__name__}")
     api_request = RequestCopyFiles(request_id, data)
     response = api_request.do_process()
+
+    if "data" in response and response["status"] == "SUCCESS":
+        res_data = response["data"]
+        # merge response with data
+        res_data.update(data)
+        return {"status": "SUCCESS", "data": res_data}
     return response
 
 # DELETE FILE
@@ -115,6 +143,15 @@ def get_dataset_files_list():
     request_id = g.request_id
     current_app.logger.info(f"{request_id} --- ENDPOINT: {__name__}")
     api_request = RequestGetDatasetFilesList(request_id, args)
+    response = api_request.do_process()
+    return response
+
+
+@files_api.route('/datastore/aolme-videos', methods=['GET'])
+def get_aolme_videos():
+    request_id = g.request_id
+    current_app.logger.info(f"{request_id} --- ENDPOINT: {__name__}")
+    api_request = RequestGetAolmeVideos(request_id)
     response = api_request.do_process()
     return response
 
