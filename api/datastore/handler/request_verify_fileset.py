@@ -73,7 +73,7 @@ class RequestVerifyFileset(AbstractHandler):
                 current_app.logger.debug(f"{self.request_id} --- {self.__class__.__name__} --- Set Directory created: {set_path}")
 
             # Files from 
-            query = f"SELECT df.dataset_id, df.file_id, df.set_id, f.* FROM dataset_files df JOIN files f ON df.file_id = f.file_id WHERE df.set_id = '{set_id}'"
+            query = f"SELECT df.dataset_id, df.file_id, df.set_id, f.* FROM dataset_files df JOIN files f ON df.file_id = f.file_id WHERE df.set_id = '{set_id}' AND f.file_type = 'video'"
 
             response_files = dao_request.query(self.request_id, query)
             current_app.logger.debug(f"{self.request_id} --- {self.__class__.__name__} --- response_files: {response_files}")
@@ -85,7 +85,7 @@ class RequestVerifyFileset(AbstractHandler):
             for file in response_files["response"]:
                 file_path = os.path.join(set_path, file["file_name"])
                 if not os.path.exists(file_path):
-
+                    current_app.logger.debug(f"{self.request_id} --- {self.__class__.__name__} --- FILE_CHECK: {file}")
                     # Check if create_method is LINK
                     if file["create_method"] == "LINK":
                         metadata = json.loads(file["metadata"])
